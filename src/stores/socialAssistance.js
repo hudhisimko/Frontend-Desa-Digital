@@ -1,6 +1,10 @@
 import { defineStore } from "pinia";
+import { axiosInstance } from "../plugins/axios";
+import { handleError } from "@/helpers/errorHelper";
+import router from "@/router";
 
-export const socialAssistanceStores = defineStore("social-assistance", {
+
+export const useSocialAssistanceStore = defineStore("social-assistance", {
 
   state: () => ({
     socialAssistances: [],
@@ -20,16 +24,71 @@ export const socialAssistanceStores = defineStore("social-assistance", {
       this.loading = true
 
       try {
-        const response = await axiosInstance.get(
-          "social-assistance/all/paginated",
-          { params });
-        this.socialAssistances = response.data.data.data;
-        this.meta = response.data.data.meta;
+        const response = await axiosInstance.get("social-assistance/all/paginated",{ params });
+
+        this.socialAssistances = response.data.data.data
+        this.meta = response.data.data.meta
       } catch (error) {
-        this.error = handleError(error);
+        this.error = handleError(error)
       } finally {
-        this.loading = false;
+        this.loading = false
       }
     },
-  },
-});
+    async fetchSocialAssistance(id) {
+      this.loading = true
+
+      try {
+        const response = await axiosInstance.get(`/social-assistance/${id}`)
+        return response.data.data
+      } catch (error) {
+        this.error = handleError(error)
+      } finally {
+        this.loading = false
+      }
+    },
+
+    async createSocialAssistance(payload) {
+    this.loading = true;
+    try {
+      const response = await axiosInstance.post(`/social-assistance`, payload, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      this.success = response.data.message;
+      router.push({ name: "social-assistance" });
+    } catch (error) {
+      this.error = handleError(error);
+    } finally {
+      this.loading = false;
+    }
+},
+
+
+    async updateSocialAssistance(payload) {
+    this.loading = true;
+    try {
+      const response = await axiosInstance.post(`/social-assistance/${payload.id}`, payload.data, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      this.success = response.data.message;
+      router.push({ name: "manage-social-assistance", params: { id: payload.id } });
+    } catch (error) {
+      this.error = handleError(error);
+    } finally {
+      this.loading = false;
+    }
+},
+
+      async deleteSocialAssistance(id) {
+        this.loading = true
+
+        try {
+          const response = await axiosInstance.delete(`/social-assistance/${id}`)
+          this.success = response.data.message
+        } catch (error) {
+          this.error = handleError(error)
+        } finally {
+          this.loading = false
+        }
+      }
+  }
+})
