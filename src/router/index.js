@@ -4,14 +4,16 @@ import { useAuthStore } from "@/stores/auth";
 import Dashboard from "@/views/Dashboard.vue";
 
 import Login from "@/views/Login.vue";
+import SocialAssistanceRecipient from "@/views/social-assistance-recipient/SocialAssistanceRecipient.vue";
+import SocialAssistanceRecipients from "@/views/social-assistance-recipient/SocialAssistanceRecipients.vue";
 
 import { createRouter, createWebHistory } from "vue-router";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-    {
-      path: "/",
+     {
+       path: "/",
       component: Main,
       children: [
         {
@@ -20,6 +22,19 @@ const router = createRouter({
           component: Dashboard,
           meta: { requiresAuth: true, permission: "dashboard-menu" },
         },
+        {
+       path: '/social-assistance-recipient',
+       name: 'social-assistance-recipient',
+       component: SocialAssistanceRecipients,
+       meta: { requiresAuth: true, permission: 'social-assistance-recipient-list'}
+    },
+     {
+       path: '/social-assistance-recipient/:id',
+       name: 'manage-social-assistance-recipient',
+       component: SocialAssistanceRecipient,
+       meta: { requiresAuth: true, permission: 'social-assistance-recipient-list'}
+    },
+     
       ],
     },
     {
