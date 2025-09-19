@@ -8,10 +8,17 @@ import HeadOfFamilyCreate from "@/views/head-of-family/HeadOfFamilyCreate.vue";
 
 
 import Login from "@/views/Login.vue";
+
+import SocialAssistances from "@/views/social-assistance/SocialAssistances.vue";
+import SocialAssistance from "@/views/social-assistance/SocialAssistance.vue";
+import SocialAssistanceEdit from "@/views/social-assistance/SocialAssistanceEdit.vue";
+
 import SocialAssistanceRecipient from "@/views/social-assistance-recipient/SocialAssistanceRecipient.vue";
 import SocialAssistanceRecipients from "@/views/social-assistance-recipient/SocialAssistanceRecipients.vue";
 
+
 import { createRouter, createWebHistory } from "vue-router";
+import SocialAssistanceCreate from "@/views/social-assistance/SocialAssistanceCreate.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -27,6 +34,32 @@ const router = createRouter({
           meta: { requiresAuth: true, permission: "dashboard-menu" },
         },
         {
+
+          path: 'social-assistance',
+          name: 'social-assistance',
+          component: SocialAssistances,
+          meta: { requiresAuth: true, permission:'social-assistance-list' },
+        },
+        {
+          path: 'social-assistance/:id',
+          name: 'manage-social-assistance',
+          component: SocialAssistance,
+          meta: { requiresAuth: true, permission:'social-assistance-list' },
+        },
+        {
+          path: 'social-assistance/edit/:id',
+          name: 'edit-social-assistance',
+          component: SocialAssistanceEdit,
+          meta: { requiresAuth: true, permission:'social-assistance-edit' },
+        },
+        {
+          path: 'social-assistance/create',
+          name: 'create-social-assistance',
+          component: SocialAssistanceCreate,
+          meta: { requiresAuth: true, permission:'social-assistance-create' },
+        },
+      ]
+
 
        path: '/social-assistance-recipient',
        name: 'social-assistance-recipient',
@@ -61,6 +94,7 @@ const router = createRouter({
 
 
       ],
+
     },
     {
       path: "/login",
