@@ -2,11 +2,20 @@ import Auth from "@/layouts/Auth.vue";
 import Main from "@/layouts/Main.vue";
 import { useAuthStore } from "@/stores/auth";
 import Dashboard from "@/views/Dashboard.vue";
+import HeadOfFamilies from "@/views/head-of-family/HeadOfFamilies.vue";
+import HeadOfFamily from "@/views/head-of-family/HeadOfFamily.vue";
+import HeadOfFamilyCreate from "@/views/head-of-family/HeadOfFamilyCreate.vue";
+
 
 import Login from "@/views/Login.vue";
+
 import SocialAssistances from "@/views/social-assistance/SocialAssistances.vue";
 import SocialAssistance from "@/views/social-assistance/SocialAssistance.vue";
 import SocialAssistanceEdit from "@/views/social-assistance/SocialAssistanceEdit.vue";
+
+import SocialAssistanceRecipient from "@/views/social-assistance-recipient/SocialAssistanceRecipient.vue";
+import SocialAssistanceRecipients from "@/views/social-assistance-recipient/SocialAssistanceRecipients.vue";
+
 
 import { createRouter, createWebHistory } from "vue-router";
 import SocialAssistanceCreate from "@/views/social-assistance/SocialAssistanceCreate.vue";
@@ -14,8 +23,8 @@ import SocialAssistanceCreate from "@/views/social-assistance/SocialAssistanceCr
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-    {
-      path: "/",
+     {
+       path: "/",
       component: Main,
       children: [
         {
@@ -25,6 +34,7 @@ const router = createRouter({
           meta: { requiresAuth: true, permission: "dashboard-menu" },
         },
         {
+
           path: 'social-assistance',
           name: 'social-assistance',
           component: SocialAssistances,
@@ -49,6 +59,42 @@ const router = createRouter({
           meta: { requiresAuth: true, permission:'social-assistance-create' },
         },
       ]
+
+
+       path: '/social-assistance-recipient',
+       name: 'social-assistance-recipient',
+       component: SocialAssistanceRecipients,
+       meta: { requiresAuth: true, permission: 'social-assistance-recipient-list'}
+    },
+     {
+       path: '/social-assistance-recipient/:id',
+       name: 'manage-social-assistance-recipient',
+       component: SocialAssistanceRecipient,
+       meta: { requiresAuth: true, permission: 'social-assistance-recipient-list'}
+    },
+     
+
+          path: 'head-of-family',
+          name: 'head-of-family',
+          component: HeadOfFamilies,
+          meta: { requiresAuth: true, permission: 'head-of-family-list'}
+        },
+        {
+          path: 'head-of-family/:id',
+          name: 'manage-head-of-family',
+          component: HeadOfFamily,
+          meta: { requiresAuth: true, permission: 'head-of-family-list'}
+        },
+         {
+          path: 'head-of-family/create',
+          name: 'create-head-of-family',
+          component: HeadOfFamilyCreate,
+          meta: { requiresAuth: true, permission: 'head-of-family-create'}
+        },
+
+
+      ],
+
     },
     {
       path: "/login",
